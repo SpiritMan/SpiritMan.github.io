@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android APP优化之UI优化 | 乐子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="##Android APP优化之UI优化UI优化的目的：制作出加载效率高并且复用性高的UI
+##遵从的原则：
+
+多用RelativeLayout和LinearLayout
+将可复用的组件抽取出来并通过&amp;lt; include /&amp;gt;标签使用
+使用&amp;lt; merge /&amp;gt;标签减少布局的嵌套层次
+使用&amp;lt; ViewStub /&amp;gt;标签来加载一些不常用的布局">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android APP优化之UI优化">
+<meta property="og:url" content="http://yoursite.com/2016/09/08/androidUiOptimization/index.html">
+<meta property="og:site_name" content="乐子">
+<meta property="og:description" content="##Android APP优化之UI优化UI优化的目的：制作出加载效率高并且复用性高的UI
+##遵从的原则：
+
+多用RelativeLayout和LinearLayout
+将可复用的组件抽取出来并通过&amp;lt; include /&amp;gt;标签使用
+使用&amp;lt; merge /&amp;gt;标签减少布局的嵌套层次
+使用&amp;lt; ViewStub /&amp;gt;标签来加载一些不常用的布局">
+<meta property="og:image" content="http://yoursite.com/media/14483451725800/20150507093837866.jpg">
+<meta property="og:updated_time" content="2016-09-20T07:43:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android APP优化之UI优化">
+<meta name="twitter:description" content="##Android APP优化之UI优化UI优化的目的：制作出加载效率高并且复用性高的UI
+##遵从的原则：
+
+多用RelativeLayout和LinearLayout
+将可复用的组件抽取出来并通过&amp;lt; include /&amp;gt;标签使用
+使用&amp;lt; merge /&amp;gt;标签减少布局的嵌套层次
+使用&amp;lt; ViewStub /&amp;gt;标签来加载一些不常用的布局">
+<meta name="twitter:image" content="http://yoursite.com/media/14483451725800/20150507093837866.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="乐子" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.png">
+  
+  <script src="/style.js"></script>
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://7xw00x.com1.z0.glb.clouddn.com/WechatIMG18.jpeg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Yolo Cc</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">永远年轻，永远热泪盈眶。</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/SpiritMan" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="http://weibo.com/3805745180/profile?topnav=1&wvr=6" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss">rss</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Yolo Cc</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://7xw00x.com1.z0.glb.clouddn.com/WechatIMG18.jpeg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Yolo Cc</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">永远年轻，永远热泪盈眶。</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/SpiritMan" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/3805745180/profile?topnav=1&wvr=6" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-androidUiOptimization" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android APP优化之UI优化
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##Android APP优化之UI优化<br>UI优化的目的：制作出加载效率高并且复用性高的UI</p>
+<p>##遵从的原则：</p>
+<ul>
+<li>多用RelativeLayout和LinearLayout</li>
+<li>将可复用的组件抽取出来并通过&lt; include /&gt;标签使用</li>
+<li>使用&lt; merge /&gt;标签减少布局的嵌套层次</li>
+<li>使用&lt; ViewStub /&gt;标签来加载一些不常用的布局<a id="more"></a>
+</li>
+</ul>
+<h2 id="详细介绍"><a href="#详细介绍" class="headerlink" title="详细介绍"></a>详细介绍</h2><p>在同一个布局我们可以用LinearLayout解决的我们尽量用LinearLayout，比如：（宅米）支付方式的选择。使用RelativeLayout能使我们构建的布局适应性更强，构建出来的UI布局对多屏幕的适配效果越好，通过指定UI控件间的相对位置，使在不同屏幕上布局的表现能基本保持一致。</p>
+<p>###1、&lt; include /&gt;的使用<br>通过它，我们可以将这些共用的组件抽取出来单独放到一个xml文件中，然后使用&lt; include /&gt;标签导入共用布局。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:layout_height=&quot;match_parent&quot;&gt;</div><div class="line"></div><div class="line">    &lt;FrameLayout</div><div class="line">        android:id=&quot;@+id/container&quot;</div><div class="line">        android:layout_width=&quot;match_parent&quot;</div><div class="line">        android:layout_above=&quot;@+id/tabs&quot;</div><div class="line">        android:layout_height=&quot;match_parent&quot;&gt;</div><div class="line">        &lt;/FrameLayout&gt;</div><div class="line"></div><div class="line">    &lt;include</div><div class="line">        android:id=&quot;@+id/tabs&quot;</div><div class="line">        layout=&quot;@layout/bottom_tabs&quot;/&gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure>
+<p>通过这种方式，我们既能提高UI的制作和复用效率，也能保证制作的UI布局更加规整和易维护。</p>
+<p>###2、&lt; merge /&gt;标签的使用<br>&lt; merge /&gt;标签的作用是合并UI布局，使用该标签能降低UI布局的嵌套层次。该标签主要用于两种场景下，第一是当xml文件的根布局是FrameLayout时，可以用merge作为根节点。第二种情况是当用include标签导入一个共用布局时，如果父布局和子布局根节点为同一类型，可以使用merge将子节点布局的内容合并包含到父布局中。<br>show_logo.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;merge xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:layout_height=&quot;match_parent&quot;&gt;</div><div class="line"></div><div class="line">    &lt;ImageView</div><div class="line">        android:layout_width=&quot;30dp&quot;</div><div class="line">        android:layout_alignParentRight=&quot;true&quot;</div><div class="line">        android:src=&quot;@mipmap/ic_launcher&quot;</div><div class="line">        android:layout_height=&quot;30dp&quot; /&gt;</div><div class="line"></div><div class="line">&lt;/merge&gt;</div></pre></td></tr></table></figure>
+<p>activity_logo.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:layout_height=&quot;match_parent&quot;&gt;</div><div class="line"></div><div class="line">    &lt;include</div><div class="line">        layout=&quot;@layout/show_logo&quot;/&gt;</div><div class="line"></div><div class="line">&lt;/RelativeLayout&gt;</div></pre></td></tr></table></figure>
+<h3 id="3、-lt-ViewStub-gt-的使用"><a href="#3、-lt-ViewStub-gt-的使用" class="headerlink" title="3、&lt; ViewStub /&gt;的使用"></a>3、&lt; ViewStub /&gt;的使用</h3><p>ViewStub是一个不可见的，能在运行期间延迟加载的大小为0的View，它直接继承于View。当对一个ViewStub调用inflate()方法或设置它可见时，系统会加载在ViewStub标签中引入的我们自己定义的View，然后填充在父布局当中。在对ViewStub调用inflate()方法或设置visible之前，它是不占用布局空间和系统资源的。<br>在我们用来显示网络请求结果的时候，可以使用<viewstub>，通过网络请求的结果来判断时候要显示控件，提高流畅度。<br>error.xml</viewstub></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    android:id=&quot;@+id/empty_prompt&quot;</div><div class="line">    android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:layout_height=&quot;match_parent&quot;&gt;</div><div class="line"></div><div class="line">        &lt;TextView</div><div class="line">            android:id=&quot;@+id/empty_content&quot;</div><div class="line">            android:layout_width=&quot;wrap_content&quot;</div><div class="line">            android:layout_height=&quot;wrap_content&quot;</div><div class="line">            android:layout_centerInParent=&quot;true&quot;</div><div class="line">            android:layout_below=&quot;@id/empty_image&quot;</div><div class="line">            android:layout_marginTop=&quot;20dp&quot;</div><div class="line">            android:gravity=&quot;center&quot;</div><div class="line">            android:text=&quot;您目前还没有订单&quot;</div><div class="line">            android:textColor=&quot;@color/grey&quot;</div><div class="line">            android:textSize=&quot;18sp&quot; /&gt;</div><div class="line">   &lt;/RelativeLayout&gt;</div></pre></td></tr></table></figure>
+<p>fragment_myOrder.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    android:orientation=&quot;vertical&quot; android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:layout_height=&quot;match_parent&quot;&gt;</div><div class="line"></div><div class="line">       &lt;ViewStub</div><div class="line">        android:id=&quot;@+id/error_layout&quot;</div><div class="line">        android:layout_width=&quot;wrap_content&quot;</div><div class="line">        android:layout_height=&quot;wrap_content&quot;</div><div class="line">        android:layout_centerInParent=&quot;true&quot;</div><div class="line">       	android:layout=&quot;@layout/error&quot; /&gt;</div><div class="line"></div><div class="line">&lt;/RelativeLayout&gt;</div></pre></td></tr></table></figure>
+<p>MyOrdersActivity</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//显示</div><div class="line">ViewStub stub = (ViewStub) findViewById(R.id.error_layout);</div><div class="line">        stub.inflate();</div><div class="line">//隐藏</div><div class="line">stub.setVisibility(View.GONE)</div></pre></td></tr></table></figure>
+<p>##工具<br>1.设置 -&gt; 开发者选项 -&gt; 调试GPU过度绘制 -&gt; 显示GPU过度绘制<br><img src="media/14483451725800/20150507093837866.jpg" alt="20150507093837866"></p>
+<p>2.Hierarchy Viewer</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/09/08/androidUiOptimization/" class="archive-article-date">
+  	<time datetime="2016-09-08T08:26:59.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-08</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/09/12/ViewStub/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          先定个小目标：搞懂ViewStub
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/08/24/AAPT/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">AAPT</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Yolo Cc
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/"
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
