@@ -131,78 +131,6 @@
       <div class="body-wrap">
         
   
-    <article id="post-Gradle实现不同开发环境的切换" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/12/Gradle实现不同开发环境的切换/">Gradle实现不同开发环境的切换</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Hi大家好，我叫Yolo.cc。</p>
-<p>最近工作比较轻松，想着整理一些自己在项目开发中使用的一些小技巧。大家都知道开发我们会分不同的服务器用来开发和测试，拿我司来说有：dev,test,release。有时候我们为了调试bug得在不同环境来回切换。二是测试人员安装APP后经常不知道这个是哪个环境的😅。客观别走接图：<br><img src="http://7xw00x.com1.z0.glb.clouddn.com/gradledemo_result.jpeg" alt=""></p>
-<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p>在阅读<a href="https://avatarqing.gitbooks.io/gradlepluginuserguidechineseverision/content/" target="_blank" rel="external">Gradle</a>文档时发现了一些关于建立不同开发环境的知识。我们可以在buildTypes下建立不同的开发环境（dev，debug，release），通过buildConfigField来建立一个String类型的API头。versionNameSuffix来改变versionName，有时请求头文件里需要这个。applicationIdSuffix来改变我们APP的包名，实现同一个应用在手机上安装多个不同开发环境。</p>
-<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>我们可以通过build.gradle文件建立不同的环境</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">buildTypes &#123;</div><div class="line"></div><div class="line">    dev &#123;</div><div class="line">        </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    debug &#123;</div><div class="line">        </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    release &#123;</div><div class="line">        <span class="function">minifyEnabled <span class="keyword">false</span></span></div><div class="line">        proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>然后可以通过IDE的左下角Build Variants来选择要构建的类型，如图：</p>
-<p><img src="http://7xw00x.com1.z0.glb.clouddn.com/buildvariants.jpeg" alt=""></p>
-<p>但是选择dev，release的时候发现不能运行，提示我们要配置签名，而debug时可以为什么呢？原来在debug用的是默认的签名$HOME/.android/debug.keystore。所以要建立一个签名并在gradle文件中配置</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">signingConfigs &#123;</div><div class="line">    release &#123;</div><div class="line">        <span class="function">storeFile <span class="title">file</span><span class="params">(<span class="string">"./gradleDemo.jks"</span>)</span></span></div><div class="line">        storePassword "test123"</div><div class="line">        keyAlias "gradleDemo"</div><div class="line">        keyPassword "yolocc"</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>并在 dev debug release 中添加上 signingConfig signingConfigs.release就可以了。接下来我们就可以在不同环境中配置我们的API环境了具体如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">buildTypes &#123;</div><div class="line"></div><div class="line">    dev &#123;</div><div class="line">        versionNameSuffix <span class="string">'.dev'</span></div><div class="line">        signingConfig signingConfigs.release</div><div class="line">        buildConfigField <span class="string">"String"</span>, <span class="string">"API_URL"</span>, <span class="string">'"http://dev.yolocc/api"'</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    debug &#123;</div><div class="line">        versionNameSuffix <span class="string">'.debug'</span></div><div class="line">        signingConfig signingConfigs.release</div><div class="line">        buildConfigField <span class="string">"String"</span>, <span class="string">"API_URL"</span>, <span class="string">'"http://debug.yolocc/api"'</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    release &#123;</div><div class="line">        minifyEnabled <span class="keyword">false</span></div><div class="line">        signingConfig signingConfigs.release</div><div class="line">        buildConfigField <span class="string">"String"</span>, <span class="string">"API_URL"</span>, <span class="string">'"http://yolocc/api"'</span></div><div class="line">        <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在网络请求时我们就可以通过BuildConfig.API_URL来获取了，这样就不用切服务器的时候还用一个个改请求地址了。这个时候我们想根据服务器的不同给APP不同名字怎么办呢？如图我们可以在对应的文件下建立对应的包，并在strings.xml中改变APP的名字。</p>
-<p><img src="http://7xw00x.com1.z0.glb.clouddn.com/path.jpeg" alt=""></p>
-<p>同样的道理我们也可以改变APP的ic_launcher的图标，即在对应的res下建立minmap-hdpi文件夹建图标放进去就可以了。</p>
-<p>最后我们可以同过applicationIdSuffix来改变我们APP的包名，这样就可以实现一个APP在手机上安装多个不同开发环境。如果需要的话可以通过versionNameSuffix来修改版本号。具体代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">buildTypes &#123;</div><div class="line"></div><div class="line">    dev &#123;</div><div class="line">        versionNameSuffix <span class="string">'.dev'</span></div><div class="line">        signingConfig signingConfigs.release</div><div class="line">        applicationIdSuffix <span class="string">'.dev'</span></div><div class="line">        buildConfigField <span class="string">"String"</span>, <span class="string">"API_URL"</span>, <span class="string">'"http://dev.yolocc/api"'</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    debug &#123;</div><div class="line">        versionNameSuffix <span class="string">'.debug'</span></div><div class="line">        applicationIdSuffix <span class="string">'.debug'</span></div><div class="line">        signingConfig signingConfigs.release</div><div class="line">        buildConfigField <span class="string">"String"</span>, <span class="string">"API_URL"</span>, <span class="string">'"http://debug.yolocc/api"'</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    release &#123;</div><div class="line">        minifyEnabled <span class="keyword">false</span></div><div class="line">        signingConfig signingConfigs.release</div><div class="line">        buildConfigField <span class="string">"String"</span>, <span class="string">"API_URL"</span>, <span class="string">'"http://yolocc/api"'</span></div><div class="line">        <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>高能警告如果你有第三方SDK，用到了包名，</p>
-<p>请不要使用applicationIdSuffix，</p>
-<p>请不要使用applicationIdSuffix，</p>
-<p>请不要使用applicationIdSuffix，</p>
-<p>这会导致你的第三方功能失效，比如：支付宝支付。</p>
-<p><a href="https://github.com/SpiritMan/GradleDemo" target="_blank" rel="external">源码</a></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://keeganlee.me/post/architecture/20160329" target="_blank" rel="external">http://keeganlee.me/post/architecture/20160329</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/12/Gradle实现不同开发环境的切换/" class="archive-article-date">
-  	<time datetime="2016-09-12T14:20:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-12</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-ViewStub" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -284,6 +212,59 @@
     <div class="article-info article-info-index">
       
       <a href="/2016/09/12/smartisonTime/" class="archive-article-date">
+  	<time datetime="2016-09-12T14:20:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-12</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Gradle实现不同开发环境的切换" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/12/Gradle实现不同开发环境的切换/">Gradle实现不同开发环境的切换</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Hi大家好，我叫Yolo.cc。</p>
+<p>最近工作比较轻松，想着整理一些自己在项目开发中使用的一些小技巧。大家都知道开发我们会分不同的服务器用来开发和测试，拿我司来说有：dev,test,release。有时候我们为了调试bug得在不同环境来回切换。二是测试人员安装APP后经常不知道这个是哪个环境的😅。客观别走接图：<br><img src="http://7xw00x.com1.z0.glb.clouddn.com/gradledemo_result.jpeg" alt=""></p>
+        <p class="article-more-link">
+          <a  href="/2016/09/12/Gradle实现不同开发环境的切换/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/09/12/Gradle实现不同开发环境的切换/" class="archive-article-date">
   	<time datetime="2016-09-12T14:20:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-12</time>
 </a>
       
