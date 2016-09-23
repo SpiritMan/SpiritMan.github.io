@@ -4,17 +4,28 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>乐子</title>
+  <title>Gradle实现不同开发环境的切换 | 乐子</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="永远年轻，永远热泪盈眶。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="乐子">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="Hi大家好，我叫Yolo.cc。
+最近工作比较轻松，想着整理一些自己在项目开发中使用的一些小技巧。大家都知道开发我们会分不同的服务器用来开发和测试，拿我司来说有：dev,test,release。有时候我们为了调试bug得在不同环境来回切换。二是测试人员安装APP后经常不知道这个是哪个环境的😅。客观别走接图：
+实现思路在阅读Gradle文档时发现了一些关于建立不同开发环境的知识。我们可以在bui">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle实现不同开发环境的切换">
+<meta property="og:url" content="http://yoursite.com/2016/09/12/Gradle实现不同开发环境的切换/index.html">
 <meta property="og:site_name" content="乐子">
-<meta property="og:description" content="永远年轻，永远热泪盈眶。">
+<meta property="og:description" content="Hi大家好，我叫Yolo.cc。
+最近工作比较轻松，想着整理一些自己在项目开发中使用的一些小技巧。大家都知道开发我们会分不同的服务器用来开发和测试，拿我司来说有：dev,test,release。有时候我们为了调试bug得在不同环境来回切换。二是测试人员安装APP后经常不知道这个是哪个环境的😅。客观别走接图：
+实现思路在阅读Gradle文档时发现了一些关于建立不同开发环境的知识。我们可以在bui">
+<meta property="og:image" content="http://7xw00x.com1.z0.glb.clouddn.com/gradledemo_result.jpeg">
+<meta property="og:image" content="http://7xw00x.com1.z0.glb.clouddn.com/buildvariants.jpeg">
+<meta property="og:image" content="http://7xw00x.com1.z0.glb.clouddn.com/path.jpeg">
+<meta property="og:updated_time" content="2016-09-23T07:47:21.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="乐子">
-<meta name="twitter:description" content="永远年轻，永远热泪盈眶。">
+<meta name="twitter:title" content="Gradle实现不同开发环境的切换">
+<meta name="twitter:description" content="Hi大家好，我叫Yolo.cc。
+最近工作比较轻松，想着整理一些自己在项目开发中使用的一些小技巧。大家都知道开发我们会分不同的服务器用来开发和测试，拿我司来说有：dev,test,release。有时候我们为了调试bug得在不同环境来回切换。二是测试人员安装APP后经常不知道这个是哪个环境的😅。客观别走接图：
+实现思路在阅读Gradle文档时发现了一些关于建立不同开发环境的知识。我们可以在bui">
+<meta name="twitter:image" content="http://7xw00x.com1.z0.glb.clouddn.com/gradledemo_result.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="乐子" type="application/atom+xml">
   
@@ -129,9 +140,7 @@
 </nav>
 
       <div class="body-wrap">
-        
-  
-    <article id="post-Gradle实现不同开发环境的切换" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-Gradle实现不同开发环境的切换" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -140,8 +149,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/12/Gradle实现不同开发环境的切换/">Gradle实现不同开发环境的切换</a>
+    <h1 class="article-title" itemprop="name">
+      Gradle实现不同开发环境的切换
     </h1>
   
 
@@ -193,58 +202,37 @@
   </div>
 </article>
 
-
-
-
-
-
-
-
-
-
   
-    <article id="post-ViewStub" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/12/ViewStub/">先定个小目标：搞懂ViewStub</a>
-    </h1>
   
+    <a href="/2016/09/12/ViewStub/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">先定个小目标：搞懂ViewStub</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Hi大家好，我叫Yolo.cc，今天我们来彻底了解ViewStub。</p>
-<h3 id="什么是ViewStub"><a href="#什么是ViewStub" class="headerlink" title="什么是ViewStub"></a>什么是ViewStub</h3><p>ViewStub是一个不可见并且用来在运行时延迟加载试图，高宽都为0的View，ViewStub在没有调用inflate()方法或setVisibility(View.VISIBLE)之前，它不占用的布局和系统资源。<br>
-        <p class="article-more-link">
-          <a  href="/2016/09/12/ViewStub/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/12/ViewStub/" class="archive-article-date">
-  	<time datetime="2016-09-12T14:20:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-12</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
 
 
@@ -252,174 +240,6 @@
 
 
 
-
-
-
-  
-    <article id="post-smartisonTime" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/12/smartisonTime/">仿锤子时间控件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Hi大家好，我叫Yolo.cc。</p>
-<p>最近看了<a href="https://github.com/GcsSloop/AndroidNote" target="_blank" rel="external">大神Sloop关于自定义view笔记</a><br>语言易懂很适合对自定义View不懂的人 。为了看自己学的怎么样，作为一个锤粉对于锤子的UI动画佩服，所以模仿了锤子手机时间控件。不才，精髓没有模仿到，O(∩_∩)O。</p>
-<p>直接上效果图：</p>
-<p><img src="http://7xw00x.com1.z0.glb.clouddn.com/smartisanTime.gif" alt="image"> </p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/12/smartisonTime/" class="archive-article-date">
-  	<time datetime="2016-09-12T14:20:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-12</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-androidUiOptimization" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/08/androidUiOptimization/">Android APP优化之UI优化</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>##Android APP优化之UI优化<br>UI优化的目的：制作出加载效率高并且复用性高的UI</p>
-<p>##遵从的原则：</p>
-<ul>
-<li>多用RelativeLayout和LinearLayout</li>
-<li>将可复用的组件抽取出来并通过&lt; include /&gt;标签使用</li>
-<li>使用&lt; merge /&gt;标签减少布局的嵌套层次</li>
-<li>使用&lt; ViewStub /&gt;标签来加载一些不常用的布局
-        <p class="article-more-link">
-          <a  href="/2016/09/08/androidUiOptimization/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/08/androidUiOptimization/" class="archive-article-date">
-  	<time datetime="2016-09-08T08:26:59.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-AAPT" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/24/AAPT/">AAPT的使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>aapt即Android Asset Packaging Tool，在SDK的build-tools目录下。该工具可以查看，创建， 更新ZIP格式的文档附件(zip, jar, apk)。也可将资源文件编译成<a href="http://baike.baidu.com/view/1473761.htm">二进制文件</a>，尽管你可能没有直接使用过aapt工具，但是build scripts和IDE<a href="http://baike.baidu.com/view/18979.htm">插件</a>会使用这个工具打包apk文件构成一个Android 应用程序。在使用aapt之前需要在环境变量里面配置SDK-tools路径，或者是路径+aapt的方式进入aapt。<br>
-        <p class="article-more-link">
-          <a  href="/2016/08/24/AAPT/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/08/24/AAPT/" class="archive-article-date">
-  	<time datetime="2016-08-24T02:54:34.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-08-24</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-  
 
 
       </div>
@@ -441,8 +261,8 @@
 		fancybox: true,
 		mathjax: true,
 		animate: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
