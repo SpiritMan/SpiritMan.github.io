@@ -131,108 +131,6 @@
       <div class="body-wrap">
         
   
-    <article id="post-AndroidDevCodeBlock" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Android-开发常用代码块"><a href="#Android-开发常用代码块" class="headerlink" title="Android 开发常用代码块"></a>Android 开发常用代码块</h2><ol>
-<li><p>防止Handler造成内存泄漏，避免使用非静态内部类，继承Handler时，要么是放在单独的类文件中，要么就是使用静态内部类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyHandler</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> WeakReference&lt;MainActivity&gt; activityWeakReference;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MyHandler</span><span class="params">(MainActivity activity)</span> </span>&#123;</div><div class="line">            activityWeakReference = <span class="keyword">new</span> WeakReference&lt;&gt;(activity);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</div><div class="line">            MainActivity activity = activityWeakReference.get();</div><div class="line">            <span class="keyword">if</span> (activity != <span class="keyword">null</span>) &#123;</div><div class="line">                out.println(<span class="string">"."</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>2.swiperefreshlayout,第一次进入页面的时候显示加载进度条<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">   mSwipeRefreshLayout.post(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">    <span class="meta">@Override</span>    </div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">       mSwipeRefreshLayout.setRefreshing(<span class="keyword">true</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>3.消除A页面到A页面之间的页面，例如A-&gt;B-&gt;C-&gt;A，<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Intent intent = <span class="keyword">new</span> Intent(C.<span class="keyword">this</span>, A.class);</div><div class="line">     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);</div><div class="line">     startActivity(intent);</div></pre></td></tr></table></figure></p>
-<p>   或在AndroidManifest.xml中设置Activity的启动模式为singleTask</p>
-<p>4.替换AndroidManifest中的占位符<br>   build文件<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">buildTypes &#123;</div><div class="line">     dev &#123;</div><div class="line">         debuggable <span class="keyword">true</span></div><div class="line">         <span class="comment">//替换AndroidManifest中的占位符</span></div><div class="line">         manifestPlaceholders = [</div><div class="line">                 <span class="comment">//环信应用的appkey</span></div><div class="line">                 <span class="string">"emAppKey"</span>: <span class="string">"11721dev"</span>,</div><div class="line">         ]</div><div class="line">        &#125;</div><div class="line">         </div><div class="line">         test &#123;</div><div class="line">         debuggable <span class="keyword">true</span></div><div class="line">         <span class="comment">//替换AndroidManifest中的占位符</span></div><div class="line">         manifestPlaceholders = [</div><div class="line">                 <span class="comment">//环信应用的appkey</span></div><div class="line">                 <span class="string">"emAppKey"</span>: <span class="string">"11721test"</span>,</div><div class="line">         ]</div><div class="line">        &#125;</div><div class="line">     &#125;</div></pre></td></tr></table></figure></p>
-<p>   AndroidManifest.xml</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 设置环信应用的appkey --&gt;</div><div class="line">     &lt;meta-data</div><div class="line">         android:name=<span class="string">"EASEMOB_APPKEY"</span></div><div class="line">         android:value=<span class="string">"$&#123;emAppKey&#125;"</span> /&gt;</div></pre></td></tr></table></figure>
-<p>5.拨打电话<br>   Intent.ACTION_DIAL直接拨打 需要权限<br>   Intent.FLAG_ACTIVITY_NEW_TASK 跳转到拨号界面，不需要权限<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">//原来用Intent.ACTION_DIAL，会跳到拨号界面</span></div><div class="line">Intent intent = <span class="keyword">new</span> Intent(Intent.ACTION_DIAL, Uri.parse(<span class="string">"tel:"</span> + <span class="string">"10086"</span>));</div><div class="line">intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure></p>
-<p>6.webview全屏显示image<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String imgSrcHtml = <span class="string">"&lt;html&gt;&lt;img src='"</span> + url + <span class="string">"' style='width:100%;height:auto'/&gt;&lt;/html&gt;"</span>;</div><div class="line">mWebView.loadData(imgSrcHtml, <span class="string">"text/html"</span>, <span class="string">"UTF-8"</span>);</div></pre></td></tr></table></figure></p>
-<p>7.Dp,Px之间的转换</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DensityUtils</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">dpToPx</span><span class="params">(<span class="keyword">int</span> dp)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> (<span class="keyword">int</span>) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">pxToDp</span><span class="params">(<span class="keyword">float</span> px)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> (<span class="keyword">int</span>) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, Resources.getSystem().getDisplayMetrics());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/14/AndroidDevCodeBlock/" class="archive-article-date">
-  	<time datetime="2016-12-14T03:08:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-14</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Gradle实现不同开发环境的切换" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/12/Gradle实现不同开发环境的切换/">Gradle实现不同开发环境的切换</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Hi大家好，我叫Yolo.cc。</p>
-<p>最近工作比较轻松，想着整理一些自己在项目开发中使用的一些小技巧。大家都知道开发我们会分不同的服务器用来开发和测试，拿我司来说有：dev,test,release。有时候我们为了调试bug得在不同环境来回切换。二是测试人员安装APP后经常不知道这个是哪个环境的😅。客观别走接图：<br><img src="http://7xw00x.com1.z0.glb.clouddn.com/gradledemo_result.jpeg" alt=""></p>
-        <p class="article-more-link">
-          <a  href="/2016/09/12/Gradle实现不同开发环境的切换/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/12/Gradle实现不同开发环境的切换/" class="archive-article-date">
-  	<time datetime="2016-09-12T14:20:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-12</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-smartisonTime" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -314,6 +212,59 @@
     <div class="article-info article-info-index">
       
       <a href="/2016/09/12/ViewStub/" class="archive-article-date">
+  	<time datetime="2016-09-12T14:20:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-12</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Gradle实现不同开发环境的切换" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/12/Gradle实现不同开发环境的切换/">Gradle实现不同开发环境的切换</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Hi大家好，我叫Yolo.cc。</p>
+<p>最近工作比较轻松，想着整理一些自己在项目开发中使用的一些小技巧。大家都知道开发我们会分不同的服务器用来开发和测试，拿我司来说有：dev,test,release。有时候我们为了调试bug得在不同环境来回切换。二是测试人员安装APP后经常不知道这个是哪个环境的😅。客观别走接图：<br><img src="http://7xw00x.com1.z0.glb.clouddn.com/gradledemo_result.jpeg" alt=""></p>
+        <p class="article-more-link">
+          <a  href="/2016/09/12/Gradle实现不同开发环境的切换/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/09/12/Gradle实现不同开发环境的切换/" class="archive-article-date">
   	<time datetime="2016-09-12T14:20:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-12</time>
 </a>
       
