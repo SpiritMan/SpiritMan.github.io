@@ -6,17 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>自定义View滑动冲突处理 | 乐子</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Hi，好久没有写博客了，一直工作忙，最近在做一个自定义View是用来滑动选取颜色的大致如下：">
+  <meta name="description" content="Hi，好久没有写博客了，最近在做一个自定义View是用来滑动选取颜色的大致如下：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="自定义View滑动冲突处理">
 <meta property="og:url" content="http://yoursite.com/2017/04/12/custom_view_slip_conflict/index.html">
 <meta property="og:site_name" content="乐子">
-<meta property="og:description" content="Hi，好久没有写博客了，一直工作忙，最近在做一个自定义View是用来滑动选取颜色的大致如下：">
+<meta property="og:description" content="Hi，好久没有写博客了，最近在做一个自定义View是用来滑动选取颜色的大致如下：">
 <meta property="og:image" content="http://7xw00x.com1.z0.glb.clouddn.com/Screenshot_2017-04-12-14-56-36-577.png">
-<meta property="og:updated_time" content="2017-04-12T07:10:45.000Z">
+<meta property="og:updated_time" content="2017-04-13T07:02:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自定义View滑动冲突处理">
-<meta name="twitter:description" content="Hi，好久没有写博客了，一直工作忙，最近在做一个自定义View是用来滑动选取颜色的大致如下：">
+<meta name="twitter:description" content="Hi，好久没有写博客了，最近在做一个自定义View是用来滑动选取颜色的大致如下：">
 <meta name="twitter:image" content="http://7xw00x.com1.z0.glb.clouddn.com/Screenshot_2017-04-12-14-56-36-577.png">
   
     <link rel="alternative" href="/atom.xml" title="乐子" type="application/atom+xml">
@@ -150,7 +150,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Hi，好久没有写博客了，一直工作忙，最近在做一个自定义View是用来滑动选取颜色的大致如下：<img src="http://7xw00x.com1.z0.glb.clouddn.com/Screenshot_2017-04-12-14-56-36-577.png" alt=""></p>
+        <p>Hi，好久没有写博客了，最近在做一个自定义View是用来滑动选取颜色的大致如下：<img src="http://7xw00x.com1.z0.glb.clouddn.com/Screenshot_2017-04-12-14-56-36-577.png" alt=""></p>
 <a id="more"></a>
 <p>在普通情况下滑动没有问题，但是在和ViewPager嵌套使用时，发现不流畅，时常滑着滑着就变成ViewPager的滑动了，进过打点分析发现onTouchEvent方法经常走MotionEvent.ACTION_CANCEL事件导致的，原来是ViewPager会接入这个滑动事件导致的，后来发现系统的Seekbar不会出现这样的问题，仔细找了下原因发现SeekBar父类里面有如下代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * Tries to claim the user's drag motion, and requests disallowing any</div><div class="line">     * ancestors from stealing events in the drag.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">attemptClaimDrag</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mParent != <span class="keyword">null</span>) &#123;</div><div class="line">            mParent.requestDisallowInterceptTouchEvent(<span class="keyword">true</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
