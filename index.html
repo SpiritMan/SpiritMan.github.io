@@ -131,6 +131,63 @@
       <div class="body-wrap">
         
   
+    <article id="post-RecyclerView Glide滑动优化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/07/RecyclerView Glide滑动优化/">RecyclerView Glide滑动优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在我们的RecycleView中含有大量的图片需要加载时，在滑动的时候会出现卡顿的情况，为了解决这个问题，我们可以通过在滑动的时候不加载图片，等滑动停止后加载当前位置的图片。首先我们要监听RecyclerView的滑动事件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">mRecyclerView.addOnScrollListener(<span class="keyword">new</span> RecyclerView.OnScrollListener() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrolled</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span> </span>&#123;</div><div class="line">    </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> newState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onScrollStateChanged(recyclerView, newState);</div><div class="line">      </div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>在onScrollStateChanged方法中通过newState判断RecyclerView是否在滑动，SCROLL_STATE_DRAGGING ：屏幕在滚动或用户触摸或手指还在屏幕上SCROLL_STATE_SETTLING：表示屏幕产生了惯性滑动                    SCROLL_STATE_IDLE：表示屏幕没有滑动</p>
+<p>所以我们只要在屏幕滑动的时候调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Glide.with(getActivity()).pauseRequests();</div></pre></td></tr></table></figure>
+<p>在屏幕没有滑动的时候调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Glide.with(getActivity()).resumeRequests();</div></pre></td></tr></table></figure>
+<p>就可以了。完整代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">mRecyclerView.addOnScrollListener(<span class="keyword">new</span> RecyclerView.OnScrollListener() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrolled</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span> </span>&#123;</div><div class="line">        </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> newState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onScrollStateChanged(recyclerView, newState);</div><div class="line">        <span class="keyword">switch</span> (newState) &#123;</div><div class="line">            <span class="comment">//当屏幕滚动且用户使用的触碰或手指还在屏幕上，停止加载图片</span></div><div class="line">            <span class="keyword">case</span> RecyclerView.SCROLL_STATE_DRAGGING:</div><div class="line">                <span class="comment">//由于用户的操作，屏幕产生惯性滑动，停止加载图片</span></div><div class="line">            <span class="keyword">case</span> RecyclerView.SCROLL_STATE_SETTLING:</div><div class="line">                Glide.with(getActivity()).pauseRequests();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> RecyclerView.SCROLL_STATE_IDLE:</div><div class="line">                Glide.with(getActivity()).resumeRequests();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/09/07/RecyclerView Glide滑动优化/" class="archive-article-date">
+  	<time datetime="2017-09-07T03:31:12.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-自定义View通过Id获取子View" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -616,58 +673,10 @@
 
 
   
-    <article id="post-AAPT" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/24/AAPT/">AAPT的使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>aapt即Android Asset Packaging Tool，在SDK的build-tools目录下。该工具可以查看，创建， 更新ZIP格式的文档附件(zip, jar, apk)。也可将资源文件编译成<a href="http://baike.baidu.com/view/1473761.htm">二进制文件</a>，尽管你可能没有直接使用过aapt工具，但是build scripts和IDE<a href="http://baike.baidu.com/view/18979.htm">插件</a>会使用这个工具打包apk文件构成一个Android 应用程序。在使用aapt之前需要在环境变量里面配置SDK-tools路径，或者是路径+aapt的方式进入aapt。<br>
-        <p class="article-more-link">
-          <a  href="/2016/08/24/AAPT/#more">more >></a>
-        </p>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/08/24/AAPT/" class="archive-article-date">
-  	<time datetime="2016-08-24T02:54:34.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-08-24</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 

@@ -4,18 +4,21 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>自定义View通过Id获取子View | 乐子</title>
+  <title>RecyclerView Glide滑动优化 | 乐子</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="​    最近在工作中遇到，自定义View是需要通过Id获取子View，发现在初始化的时候用findViewById 的到的是null，网上搜了下才知道，那时只是进行了自定义的初始化，子View还没有加进去。需要在onFinishInflate()中通过findViewById 就可以获取到了。">
+  <meta name="description" content="在我们的RecycleView中含有大量的图片需要加载时，在滑动的时候会出现卡顿的情况，为了解决这个问题，我们可以通过在滑动的时候不加载图片，等滑动停止后加载当前位置的图片。首先我们要监听RecyclerView的滑动事件
+1234567891011mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() &amp;#123">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自定义View通过Id获取子View">
-<meta property="og:url" content="http://yoursite.com/2017/07/24/自定义View通过Id获取子View/index.html">
+<meta property="og:title" content="RecyclerView Glide滑动优化">
+<meta property="og:url" content="http://yoursite.com/2017/09/07/RecyclerView Glide滑动优化/index.html">
 <meta property="og:site_name" content="乐子">
-<meta property="og:description" content="​    最近在工作中遇到，自定义View是需要通过Id获取子View，发现在初始化的时候用findViewById 的到的是null，网上搜了下才知道，那时只是进行了自定义的初始化，子View还没有加进去。需要在onFinishInflate()中通过findViewById 就可以获取到了。">
-<meta property="og:updated_time" content="2017-07-24T08:14:47.000Z">
+<meta property="og:description" content="在我们的RecycleView中含有大量的图片需要加载时，在滑动的时候会出现卡顿的情况，为了解决这个问题，我们可以通过在滑动的时候不加载图片，等滑动停止后加载当前位置的图片。首先我们要监听RecyclerView的滑动事件
+1234567891011mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() &amp;#123">
+<meta property="og:updated_time" content="2017-09-07T03:33:39.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="自定义View通过Id获取子View">
-<meta name="twitter:description" content="​    最近在工作中遇到，自定义View是需要通过Id获取子View，发现在初始化的时候用findViewById 的到的是null，网上搜了下才知道，那时只是进行了自定义的初始化，子View还没有加进去。需要在onFinishInflate()中通过findViewById 就可以获取到了。">
+<meta name="twitter:title" content="RecyclerView Glide滑动优化">
+<meta name="twitter:description" content="在我们的RecycleView中含有大量的图片需要加载时，在滑动的时候会出现卡顿的情况，为了解决这个问题，我们可以通过在滑动的时候不加载图片，等滑动停止后加载当前位置的图片。首先我们要监听RecyclerView的滑动事件
+1234567891011mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() &amp;#123">
   
     <link rel="alternative" href="/atom.xml" title="乐子" type="application/atom+xml">
   
@@ -130,7 +133,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-自定义View通过Id获取子View" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-RecyclerView Glide滑动优化" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -140,7 +143,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      自定义View通过Id获取子View
+      RecyclerView Glide滑动优化
     </h1>
   
 
@@ -148,19 +151,26 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>​    最近在工作中遇到，自定义View是需要通过Id获取子View，发现在初始化的时候用findViewById 的到的是null，网上搜了下才知道，那时只是进行了自定义的初始化，子View还没有加进去。需要在onFinishInflate()中通过findViewById 就可以获取到了。</p>
-
+        <p>在我们的RecycleView中含有大量的图片需要加载时，在滑动的时候会出现卡顿的情况，为了解决这个问题，我们可以通过在滑动的时候不加载图片，等滑动停止后加载当前位置的图片。首先我们要监听RecyclerView的滑动事件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">mRecyclerView.addOnScrollListener(<span class="keyword">new</span> RecyclerView.OnScrollListener() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrolled</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span> </span>&#123;</div><div class="line">    </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> newState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onScrollStateChanged(recyclerView, newState);</div><div class="line">      </div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>在onScrollStateChanged方法中通过newState判断RecyclerView是否在滑动，SCROLL_STATE_DRAGGING ：屏幕在滚动或用户触摸或手指还在屏幕上SCROLL_STATE_SETTLING：表示屏幕产生了惯性滑动                    SCROLL_STATE_IDLE：表示屏幕没有滑动</p>
+<p>所以我们只要在屏幕滑动的时候调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Glide.with(getActivity()).pauseRequests();</div></pre></td></tr></table></figure>
+<p>在屏幕没有滑动的时候调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Glide.with(getActivity()).resumeRequests();</div></pre></td></tr></table></figure>
+<p>就可以了。完整代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">mRecyclerView.addOnScrollListener(<span class="keyword">new</span> RecyclerView.OnScrollListener() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrolled</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span> </span>&#123;</div><div class="line">        </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> newState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onScrollStateChanged(recyclerView, newState);</div><div class="line">        <span class="keyword">switch</span> (newState) &#123;</div><div class="line">            <span class="comment">//当屏幕滚动且用户使用的触碰或手指还在屏幕上，停止加载图片</span></div><div class="line">            <span class="keyword">case</span> RecyclerView.SCROLL_STATE_DRAGGING:</div><div class="line">                <span class="comment">//由于用户的操作，屏幕产生惯性滑动，停止加载图片</span></div><div class="line">            <span class="keyword">case</span> RecyclerView.SCROLL_STATE_SETTLING:</div><div class="line">                Glide.with(getActivity()).pauseRequests();</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> RecyclerView.SCROLL_STATE_IDLE:</div><div class="line">                Glide.with(getActivity()).resumeRequests();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2017/07/24/自定义View通过Id获取子View/" class="archive-article-date">
-  	<time datetime="2017-07-24T08:13:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-24</time>
+      <a href="/2017/09/07/RecyclerView Glide滑动优化/" class="archive-article-date">
+  	<time datetime="2017-09-07T03:31:12.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-07</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">-Android</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
 	</div>
 
       
@@ -173,18 +183,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/09/07/RecyclerView Glide滑动优化/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          RecyclerView Glide滑动优化
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/04/12/custom_view_slip_conflict/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">自定义View滑动冲突处理</div>
+    <a href="/2017/07/24/自定义View通过Id获取子View/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">自定义View通过Id获取子View</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -218,7 +219,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="自定义View通过Id获取子View" data-title="自定义View通过Id获取子View" data-url="http://yoursite.com/2017/07/24/自定义View通过Id获取子View/"></div>
+	<div class="ds-thread" data-thread-key="RecyclerView Glide滑动优化" data-title="RecyclerView Glide滑动优化" data-url="http://yoursite.com/2017/09/07/RecyclerView Glide滑动优化/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
