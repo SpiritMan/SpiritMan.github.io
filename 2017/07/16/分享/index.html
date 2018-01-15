@@ -4,20 +4,29 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>自定义View滑动冲突处理 | 乐子</title>
+  <title>Chrome插件推荐 | 乐子</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Hi，好久没有写博客了，最近在做一个自定义View是用来滑动选取颜色的大致如下：">
+  <meta name="description" content="Momentum
+提供了漂亮的壁纸，每天换一图，还提供了简单的TODO List，天气等功能">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自定义View滑动冲突处理">
-<meta property="og:url" content="http://yoursite.com/2017/04/12/custom_view_slip_conflict/index.html">
+<meta property="og:title" content="Chrome插件推荐">
+<meta property="og:url" content="http://yoursite.com/2017/07/16/分享/index.html">
 <meta property="og:site_name" content="乐子">
-<meta property="og:description" content="Hi，好久没有写博客了，最近在做一个自定义View是用来滑动选取颜色的大致如下：">
-<meta property="og:image" content="http://7xw00x.com1.z0.glb.clouddn.com/Screenshot_2017-04-12-14-56-36-577.png">
-<meta property="og:updated_time" content="2017-04-13T07:02:42.000Z">
+<meta property="og:description" content="Momentum
+提供了漂亮的壁纸，每天换一图，还提供了简单的TODO List，天气等功能">
+<meta property="og:image" content="https://dn-mhke0kuv.qbox.me/2c9e7268f59f81cbff5a.jpg">
+<meta property="og:image" content="http://www.cnplugins.com/cdn/161213/1-16121314015X40.png">
+<meta property="og:image" content="http://stormzhang.com/image/JSONView.JPG">
+<meta property="og:image" content="http://stormzhang.com/image/Octotree.JPG">
+<meta property="og:image" content="https://dn-mhke0kuv.qbox.me/1e587d7720dddead2e80.jpg">
+<meta property="og:image" content="http://yoursite.com/Users/yolocc/Desktop/6p未优化前.png">
+<meta property="og:image" content="http://apprcn.b0.upaiyun.com/Thor.png">
+<meta property="og:updated_time" content="2018-01-15T09:22:13.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="自定义View滑动冲突处理">
-<meta name="twitter:description" content="Hi，好久没有写博客了，最近在做一个自定义View是用来滑动选取颜色的大致如下：">
-<meta name="twitter:image" content="http://7xw00x.com1.z0.glb.clouddn.com/Screenshot_2017-04-12-14-56-36-577.png">
+<meta name="twitter:title" content="Chrome插件推荐">
+<meta name="twitter:description" content="Momentum
+提供了漂亮的壁纸，每天换一图，还提供了简单的TODO List，天气等功能">
+<meta name="twitter:image" content="https://dn-mhke0kuv.qbox.me/2c9e7268f59f81cbff5a.jpg">
   
     <link rel="alternative" href="/atom.xml" title="乐子" type="application/atom+xml">
   
@@ -132,7 +141,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-custom_view_slip_conflict" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-分享" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -142,7 +151,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      自定义View滑动冲突处理
+      Chrome插件推荐
     </h1>
   
 
@@ -150,23 +159,45 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Hi，好久没有写博客了，最近在做一个自定义View是用来滑动选取颜色的大致如下：<img src="http://7xw00x.com1.z0.glb.clouddn.com/Screenshot_2017-04-12-14-56-36-577.png" alt=""></p>
+        <p><a href="https://chrome.google.com/webstore/detail/momentum/laookkfknpbbblfpciffpaejjkokdgca" target="_blank" rel="external">Momentum</a></p>
+<p>提供了漂亮的壁纸，每天换一图，还提供了简单的TODO List，天气等功能</p>
+<p><img src="https://dn-mhke0kuv.qbox.me/2c9e7268f59f81cbff5a.jpg" alt="https://dn-mhke0kuv.qbox.me/2c9e7268f59f81cbff5a.jpg"></p>
 <a id="more"></a>
-<p>在普通情况下滑动没有问题，但是在和ViewPager嵌套使用时，发现不流畅，时常滑着滑着就变成ViewPager的滑动了，进过打点分析发现onTouchEvent方法经常走MotionEvent.ACTION_CANCEL事件导致的，原来是ViewPager会接入这个滑动事件导致的，后来发现系统的Seekbar不会出现这样的问题，仔细找了下原因发现SeekBar父类里面有如下代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * Tries to claim the user's drag motion, and requests disallowing any</div><div class="line">     * ancestors from stealing events in the drag.</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">attemptClaimDrag</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mParent != <span class="keyword">null</span>) &#123;</div><div class="line">            mParent.requestDisallowInterceptTouchEvent(<span class="keyword">true</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p> requestDisallowInterceptTouchEvent（true）方法是用来子View告诉父容器不要拦截我们的事件的。原来问题出在这，所以我们只要在onTouchEvent方法的MotionEvent.ACTION_DOWN MotionEvent.ACTION_MOVE: 这两个事件中调用这个方法就可以啦。</p>
+<p><a href="https://chrome.google.com/webstore/detail/dribbble-new-tab/hmhjbefkpednjogghoibpejdmemkinbn" target="_blank" rel="external">Dribbble New Tab</a></p>
+<p>非常受设计师的喜欢，因为每次一打开新标签可以让你打开空白tab的时间第一时间把每日精选作品展现出来，视觉的享受</p>
+<p><img src="http://www.cnplugins.com/cdn/161213/1-16121314015X40.png" alt=""></p>
+<p><a href="http://www.cnplugins.com/cdn/161213/1-16121314015X40.png" target="_blank" rel="external">PostMan</a></p>
+<p>一款功能强大的API开发调试的工具。不论你是做后端开发还是客户端开发，PostMan可以完成所有的HTTP请求，支持集成测试，最重要的是数据可以云同步，以及生成API接口文<a href="https://documenter.getpostman.com/view/1151170/origin-copy/6fZy3vk" target="_blank" rel="external">Demo</a> 。</p>
+<p><a href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc" target="_blank" rel="external">JSONView</a></p>
+<p>JSONView 是一个方便查看 Json 结构的插件，展开，折叠，看接口返回数据非常方便 <a href="https://www.googleapis.com/language/translate/v2?key=AIzaSyCvfxBDFD9mrLwkFIq_mqZxv9m98mBN4OM&amp;q=Hello%20World&amp;target=zh-CN" target="_blank" rel="external">Demo</a></p>
+<p><img src="http://stormzhang.com/image/JSONView.JPG" alt=""></p>
+<p><a href="https://github.com/buunguyen/octotree" target="_blank" rel="external">Octotree</a></p>
+<p>当我们在浏览别人的开源代码时，还要clone下来一个文件查看，而有了这个插件，你可以直接在Chrome侧边栏向打开文件夹一样的查看别人的项目</p>
+<p><img src="http://stormzhang.com/image/Octotree.JPG" alt=""></p>
+<p><a href="https://chrome.google.com/webstore/detail/evernote-web-clipper/pioclpoplcdbaefihamjohnefbikjilc" target="_blank" rel="external">印象笔记·剪藏</a></p>
+<p>一键保存网页到印象笔记，即时同步到你的手机和电脑上，不用复制黏贴再整理</p>
+<p><a href="https://lh3.googleusercontent.com/h19utIkjW72AIlIYUaOrKDV2cK_TC-Xs9KlxjRvglEn46K41IGl3o2u1b1XK9i2snzNf3GGdzQ=s640-h400-e365-rw" target="_blank" rel="external">惠惠购物助手</a></p>
+<p>在您网购浏览商品的同时，自动对比其他优质电商同款商品价格，并提供商品价格历史，帮您轻松抄底，聪明网购不吃亏</p>
+<p><a href="https://chrome.google.com/webstore/detail/the-great-suspender/klbibkeccnjlkjkiokjodocebajanakg" target="_blank" rel="external">The Great Suspender</a></p>
+<p>he-Great-Suspender 给我们这些喜欢开n个页面一直不关的人带来了福音，它可以自动挂起那些没有使用的Tab页面，并把内存释放出来，当你重新加载这些页面的时候才分配内存。这样下来，哪怕我开几十个页面都不觉得卡了</p>
+<p><a href="https://chrome.google.com/webstore/detail/adblock/gighmmpiobklfepjocnamgkkbiglidom" target="_blank" rel="external">AdBlock</a>  <a href="https://chrome.google.com/webstore/detail/adblock-plus/cfhdojbkjhnklbpkdaibdccddilifddb" target="_blank" rel="external">AdBlock Plus</a></p>
+<p>用来屏蔽网页上的广告和视频中的广告</p>
+<p><a href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb" target="_blank" rel="external">Vimium</a></p>
+<p>鼠标就像腹部的赘肉一样既不健康容易养成鼠标手使用起来又低效。如果你是Vim 爱好者，那么你一定会爱上Vimium 的，用更加Hack的方式操作网页，配上机械键盘，五指如飞，游览器所有的功能都可以通过快捷键来完成<img src="https://dn-mhke0kuv.qbox.me/1e587d7720dddead2e80.jpg" alt=""><a href="https://itunes.apple.com/us/app/thor/id1120999687?mt=12" target="_blank" rel="external">Thor</a></p>
+<p><strong>Thor</strong> 是一款提供了全局快捷键设置的小工具，直接点击左下角的添加按钮选择软件，再录制快捷键，这样设置就算是完毕了。当你需要启动某个软件时，只需要按下之前设置的快捷键就可以快速打开。</p>
+<p><img src="/Users/yolocc/Desktop/6p未优化前.png" alt="6p未优化前"><img src="http://apprcn.b0.upaiyun.com/Thor.png" alt=""></p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2017/04/12/custom_view_slip_conflict/" class="archive-article-date">
-  	<time datetime="2017-04-12T06:53:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-04-12</time>
+      <a href="/2017/07/16/分享/" class="archive-article-date">
+  	<time datetime="2017-07-16T05:56:15.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-16</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chrome插件/">Chrome插件</a></li></ul>
 	</div>
 
       
@@ -179,18 +210,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/07/16/分享/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/07/24/自定义View通过Id获取子View/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Chrome插件推荐
+          自定义View通过Id获取子View
         
       </div>
     </a>
   
   
-    <a href="/2017/01/10/changeGitAuthor/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">修改git已提交的author和email</div>
+    <a href="/2017/04/12/custom_view_slip_conflict/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">自定义View滑动冲突处理</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -224,7 +255,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="custom_view_slip_conflict" data-title="自定义View滑动冲突处理" data-url="http://yoursite.com/2017/04/12/custom_view_slip_conflict/"></div>
+	<div class="ds-thread" data-thread-key="分享" data-title="Chrome插件推荐" data-url="http://yoursite.com/2017/07/16/分享/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
